@@ -32,5 +32,8 @@
 *.app
 
 # Visual Studio (Code) Related
-./out
-./.vs
+out/
+.vs/
+
+# Github Related
+.github/
