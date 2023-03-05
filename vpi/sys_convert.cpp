@@ -84,6 +84,15 @@ void vpip_make_systf_system_defined(vpiHandle ref)
 
 }
 
+void error_message(vpiHandle callh, const char* msg)
+{
+    vpi_printf("ERROR: %s:%d: ", vpi_get_str(vpiFile, callh),
+        (int)vpi_get(vpiLineNo, callh));
+    vpi_printf(msg, vpi_get_str(vpiName, callh));
+    vpip_set_return_value(1);
+    vpi_control(vpiFinish, 1);
+}
+
 export
 {
     PLI_INT32 sys_itor_calltf(PLI_BYTE8*)
@@ -203,9 +212,7 @@ export
 
         /* Check that there is an argument. */
         if (argv == 0) {
-#if 0
             error_message(callh, "%s requires one argument.\n");
-#endif
             return 0;
         }
 
@@ -214,9 +221,7 @@ export
 
         /* Validate the argument. Only $bitstoreal for now. */
         if (!strcmp("$bitstoreal", (char*)(name)) && vpi_get(vpiSize, arg) != 64) {
-#if 0
             error_message(callh, "%s requires a 64-bit argument.\n");
-#endif
             return 0;
         }
 
