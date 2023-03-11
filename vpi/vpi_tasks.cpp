@@ -89,6 +89,8 @@ vpiHandle vpi_register_systf(const struct t_vpi_systf_data* ss)
     return cur;
 }
 
+void vpip_make_systf_system_defined(vpiHandle ref);
+
 module :private;
 
 __vpiUserSystf::__vpiUserSystf() {
@@ -97,4 +99,12 @@ __vpiUserSystf::__vpiUserSystf() {
 
 int __vpiUserSystf::get_type_code() const {
     return 0;
+}
+
+void vpip_make_systf_system_defined(vpiHandle ref)
+{
+    assert(ref);
+    struct __vpiUserSystf* obj = dynamic_cast<__vpiUserSystf*>(ref);
+    assert(obj);
+    obj->is_user_defn = false;
 }

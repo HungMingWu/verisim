@@ -3,7 +3,8 @@ module;
 #include "vpi_user.h"
 #include <assert.h>
 
-export module vpi;
+export module sys.convert;
+import sys.priv;
 
 vpiHandle   vpi_handle(PLI_INT32, vpiHandle) { return 0; }
 vpiHandle   vpi_iterate(PLI_INT32, vpiHandle) { return 0; }
@@ -13,11 +14,6 @@ void* vpi_get_userdata(vpiHandle) { return 0; }
 void vpi_get_value(vpiHandle expr, s_vpi_value* vp) {}
 
 PLI_INT32 vpi_put_userdata(vpiHandle ref, void* data) { return 0; }
-void check_for_extra_args(vpiHandle argv, vpiHandle callh, const PLI_BYTE8* name,
-    const char* arg_str, unsigned opt)
-{
-    return;
-}
 
 static double bits2double(PLI_UINT32 bits[2])
 {
@@ -77,11 +73,6 @@ static void double2bits(double real, PLI_UINT32 bits[2])
         | (conv.bval[6] << 16)
         | (conv.bval[7] << 24);
 #endif
-}
-
-void vpip_make_systf_system_defined(vpiHandle ref)
-{
-
 }
 
 void error_message(vpiHandle callh, const char* msg)

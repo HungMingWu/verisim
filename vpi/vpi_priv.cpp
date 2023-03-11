@@ -34,3 +34,5 @@ export {
         virtual free_object_fun_t free_object_fun(void);
     };
 }
+
+module :private;
