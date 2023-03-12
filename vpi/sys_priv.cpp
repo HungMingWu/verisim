@@ -10,7 +10,6 @@ module;
 export module sys.priv;
 
 export {
-
     struct timeformat_info_s {
         int units;
         unsigned prec;

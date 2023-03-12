@@ -3,6 +3,7 @@ add_library(vpi)
 target_sources(vpi
   PUBLIC
     FILE_SET cxx_modules TYPE CXX_MODULES FILES
+    mt19937int.cpp
     sys_convert.cpp
     sys_countdrivers.cpp
     sys_darray.cpp
@@ -10,12 +11,16 @@ target_sources(vpi
     sys_display.cpp
     sys_fileio.cpp
     sys_finish.cpp
+    sys_plusargs.cpp
     sys_priv.cpp
+    sys_queue.cpp
+    sys_random.cpp
+    sys_random_mti.cpp
     vpi_priv.cpp
     vpi_tasks.cpp
     FILE_SET cxx_modules1 TYPE CXX_MODULE_HEADER_UNITS FILES
     wrapper.cpp
-)
+ )
 
 set_target_properties(vpi PROPERTIES CXX_STANDARD 20)
 target_include_directories(vpi PRIVATE ../common)
