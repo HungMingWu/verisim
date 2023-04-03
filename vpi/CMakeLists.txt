@@ -4,6 +4,7 @@ target_sources(vpi
   PUBLIC
     FILE_SET cxx_modules TYPE CXX_MODULES FILES
     mt19937int.cpp
+    sdf_priv.cpp
     stringheap.cpp
     sys_convert.cpp
     sys_countdrivers.cpp
@@ -12,6 +13,7 @@ target_sources(vpi
     sys_display.cpp
     sys_fileio.cpp
     sys_finish.cpp
+    sys_icarus.cpp
     sys_plusargs.cpp
     sys_priv.cpp
     sys_queue.cpp
@@ -20,10 +22,13 @@ target_sources(vpi
     sys_readmem.cpp
     sys_readmem_lex.cpp
     sys_scanf.cpp
+    sys_sdf.cpp
     sys_table.cpp
     sys_time.cpp
     sys_vcd.cpp
     sys_vcdoff.cpp
+    table_mod.cpp
+    vams_simparam.cpp
     vcd_priv.cpp
     vpi_priv.cpp
     vpi_tasks.cpp
