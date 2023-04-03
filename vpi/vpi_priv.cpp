@@ -1,4 +1,6 @@
 module;
+#include <ctype.h>
+#include <string.h>
 #include "vpi_user.h"
 
 export module vpi.priv;

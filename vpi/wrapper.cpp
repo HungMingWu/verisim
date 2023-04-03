@@ -12,6 +12,9 @@ import sys.plusargs;
 import sys.queue;
 import sys.random;
 import sys.random.mti;
+import sys.readmem;
+import sys.scanf;
+import sys.time;
 
 void sys_convert_register()
 {
@@ -932,6 +935,149 @@ void sys_random_mti_register(void)
     tf_data.calltf = sys_mti_dist_uniform_calltf;
     tf_data.compiletf = sys_rand_three_args_compiletf;
     tf_data.user_data = const_cast<char*>("$mti_dist_uniform");
+    res = vpi_register_systf(&tf_data);
+    vpip_make_systf_system_defined(res);
+}
+
+void sys_readmem_register(void)
+{
+    s_vpi_systf_data tf_data;
+    vpiHandle res;
+    s_cb_data cb_data;
+
+    tf_data.type = vpiSysTask;
+    tf_data.tfname = const_cast<char*>("$readmemh");
+    tf_data.calltf = sys_readmem_calltf;
+    tf_data.compiletf = sys_mem_compiletf;
+    tf_data.sizetf = 0;
+    tf_data.user_data = const_cast<char*>("$readmemh");
+    res = vpi_register_systf(&tf_data);
+    vpip_make_systf_system_defined(res);
+
+    tf_data.type = vpiSysTask;
+    tf_data.tfname = const_cast<char*>("$readmemb");
+    tf_data.calltf = sys_readmem_calltf;
+    tf_data.compiletf = sys_mem_compiletf;
+    tf_data.sizetf = 0;
+    tf_data.user_data = const_cast<char*>("$readmemb");
+    res = vpi_register_systf(&tf_data);
+    vpip_make_systf_system_defined(res);
+
+    tf_data.type = vpiSysTask;
+    tf_data.tfname = const_cast<char*>("$readmempath");
+    tf_data.calltf = sys_readmempath_calltf;
+    tf_data.compiletf = sys_one_string_arg_compiletf;
+    tf_data.sizetf = 0;
+    tf_data.user_data = const_cast<char*>("$readmempath");
+    res = vpi_register_systf(&tf_data);
+    vpip_make_systf_system_defined(res);
+
+    tf_data.type = vpiSysTask;
+    tf_data.tfname = const_cast<char*>("$writememh");
+    tf_data.calltf = sys_writemem_calltf;
+    tf_data.compiletf = sys_mem_compiletf;
+    tf_data.sizetf = 0;
+    tf_data.user_data = const_cast<char*>("$writememh");
+    res = vpi_register_systf(&tf_data);
+    vpip_make_systf_system_defined(res);
+
+    tf_data.type = vpiSysTask;
+    tf_data.tfname = const_cast<char*>("$writememb");
+    tf_data.calltf = sys_writemem_calltf;
+    tf_data.compiletf = sys_mem_compiletf;
+    tf_data.sizetf = 0;
+    tf_data.user_data = const_cast<char*>("$writememb");
+    res = vpi_register_systf(&tf_data);
+    vpip_make_systf_system_defined(res);
+
+    cb_data.reason = cbEndOfSimulation;
+    cb_data.time = 0;
+    cb_data.cb_rtn = free_readmempath;
+    cb_data.user_data = const_cast<char*>("system");
+    vpi_register_cb(&cb_data);
+}
+
+void sys_scanf_register(void)
+{
+    s_vpi_systf_data tf_data;
+    vpiHandle res;
+
+    /*============================== fscanf */
+    tf_data.type = vpiSysFunc;
+    tf_data.sysfunctype = vpiIntFunc;
+    tf_data.tfname = const_cast<char*>("$fscanf");
+    tf_data.calltf = sys_fscanf_calltf;
+    tf_data.compiletf = sys_fscanf_compiletf;
+    tf_data.sizetf = 0;
+    tf_data.user_data = const_cast<char*>("$fscanf");
+    res = vpi_register_systf(&tf_data);
+    vpip_make_systf_system_defined(res);
+
+    /*============================== sscanf */
+    tf_data.type = vpiSysFunc;
+    tf_data.sysfunctype = vpiIntFunc;
+    tf_data.tfname = const_cast<char*>("$sscanf");
+    tf_data.calltf = sys_sscanf_calltf;
+    tf_data.compiletf = sys_sscanf_compiletf;
+    tf_data.sizetf = 0;
+    tf_data.user_data = const_cast<char*>("$sscanf");
+    res = vpi_register_systf(&tf_data);
+    vpip_make_systf_system_defined(res);
+}
+
+
+void sys_time_register(void)
+{
+    s_vpi_systf_data tf_data;
+    vpiHandle res;
+
+    tf_data.type = vpiSysFunc;
+    tf_data.tfname = const_cast<char*>("$time");
+    tf_data.sysfunctype = vpiTimeFunc;
+    tf_data.calltf = sys_time_calltf;
+    tf_data.compiletf = sys_no_arg_compiletf;
+    tf_data.sizetf = 0;
+    tf_data.user_data = const_cast<char*>("$time");
+    res = vpi_register_systf(&tf_data);
+    vpip_make_systf_system_defined(res);
+
+    tf_data.type = vpiSysFunc;
+    tf_data.tfname = const_cast<char*>("$realtime");
+    tf_data.sysfunctype = vpiRealFunc;
+    tf_data.calltf = sys_realtime_calltf;
+    tf_data.compiletf = sys_no_arg_compiletf;
+    tf_data.sizetf = 0;
+    tf_data.user_data = const_cast<char*>("$realtime");
+    res = vpi_register_systf(&tf_data);
+    vpip_make_systf_system_defined(res);
+
+    tf_data.type = vpiSysFunc;
+    tf_data.tfname = const_cast<char*>("$stime");
+    tf_data.sysfunctype = vpiIntFunc;
+    tf_data.calltf = sys_time_calltf;
+    tf_data.compiletf = sys_no_arg_compiletf;
+    tf_data.sizetf = 0;
+    tf_data.user_data = const_cast<char*>("$stime");
+    res = vpi_register_systf(&tf_data);
+    vpip_make_systf_system_defined(res);
+
+    tf_data.type = vpiSysFunc;
+    tf_data.tfname = const_cast<char*>("$simtime");
+    tf_data.sysfunctype = vpiTimeFunc;
+    tf_data.calltf = sys_time_calltf;
+    tf_data.compiletf = sys_no_arg_compiletf;
+    tf_data.sizetf = 0;
+    tf_data.user_data = const_cast<char*>("$simtime");
+    res = vpi_register_systf(&tf_data);
+    vpip_make_systf_system_defined(res);
+
+    tf_data.type = vpiSysFunc;
+    tf_data.tfname = const_cast<char*>("$abstime");
+    tf_data.sysfunctype = vpiRealFunc;
+    tf_data.calltf = sys_realtime_calltf;
+    tf_data.compiletf = sys_no_arg_compiletf;
+    tf_data.sizetf = 0;
+    tf_data.user_data = const_cast<char*>("$abstime");
     res = vpi_register_systf(&tf_data);
     vpip_make_systf_system_defined(res);
 }

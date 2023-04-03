@@ -15,7 +15,7 @@ export {
         unsigned prec;
         char* suff;
         unsigned width;
-    };
+    } timeformat_info;
 
 	char* as_escaped(char* arg);
 
@@ -82,6 +82,10 @@ export {
     vpiHandle sys_func_module(vpiHandle obj);
 
     PLI_UINT64 timerec_to_time64(const struct t_vpi_time* timerec);
+
+    char* get_filename_with_suffix(vpiHandle callh, const char* name,
+        vpiHandle file, const char* suff);
+    char* attach_suffix_to_filename(char* path, const char* suff);
 }
 
 module :private;
@@ -466,4 +470,32 @@ PLI_UINT64 timerec_to_time64(const struct t_vpi_time* timerec)
     tmp |= (PLI_UINT64)timerec->low;
 
     return tmp;
+}
+
+char* get_filename_with_suffix(vpiHandle callh, const char* name, vpiHandle file, const char* suff)
+{
+    char* path = get_filename(callh, name, file);
+    if (path == 0) return 0;
+
+    return attach_suffix_to_filename(path, suff);
+}
+
+/*
+ * Create a new copy of the path with the suffix appended.
+ */
+char* attach_suffix_to_filename(char* path, const char* suff)
+{
+    /* If the name already has a suffix, then don't replace it or
+       add another suffix. Just return this path. */
+    char* tailp = strrchr(path, '.');
+    if (tailp != 0) return path;
+
+    /* The name doesn't have a suffix, so append the passed in
+       suffix to the file name. */
+    char* new_path = (char*)malloc(strlen(path) + strlen(suff) + 2);
+    strcpy(new_path, path);
+    strcat(new_path, ".");
+    strcat(new_path, suff);
+    free(path);
+    return new_path;
 }
